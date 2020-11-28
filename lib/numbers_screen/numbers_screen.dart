@@ -25,6 +25,7 @@ class ClubNumber {
 }
 
 class NumbersScreen extends StatefulWidget {
+  static const platform = const MethodChannel('com.ethanchapman.swingtrack/record');
   static final ClubNumber clubNumber = ClubNumber();
 
   @override
@@ -89,10 +90,15 @@ class NumbersScreenState extends State<NumbersScreen> {
           floatingActionButton: FloatingActionButton(
             backgroundColor: recordButtonBackgroundColor,
             foregroundColor: recordButtonForegroundColor,
-            onPressed: () {setState(() {
+            onPressed: () async {setState(() {
               recording = !recording;
-              updateShotData((data) => data..carry+=100..attack+=10);
-            });},
+            });
+            int value = await NumbersScreen.platform.invokeMethod("record");
+            setState(() {
+              NumbersDataDisplay.data.clubSpeed = value.toDouble();
+              updateShotData((data) => data);
+            });
+            },
             child: recording ? Icon(Icons.close) : Icon(Icons.adjust)
           )
         )
