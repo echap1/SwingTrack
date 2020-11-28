@@ -1,11 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:swing_track/numbers_screen/numbers_bottom_buttons.dart';
 import 'package:swing_track/numbers_screen/numbers_data_display.dart';
 import 'package:swing_track/numbers_screen/numbers_top_buttons.dart';
 
+class ClubNumber {
+  static List<String> clubNames = ["PW", "9i", "8i", "7i", "6i", "5i", "4i", "3i", "5w", "3w", "D"];
+
+  int n = 0;
+
+  void increment() {
+    n++;
+    if (n >= clubNames.length) n = 0;
+  }
+
+  void decrement() {
+    n--;
+    if (n < 0) n = clubNames.length - 1;
+  }
+
+  String toString() {
+    return clubNames[n];
+  }
+}
+
 class NumbersScreen extends StatefulWidget {
+  static final ClubNumber clubNumber = ClubNumber();
+
   @override
   NumbersScreenState createState() => NumbersScreenState();
 }

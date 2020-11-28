@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:swing_track/home_screen/home_screen.dart';
+import 'package:swing_track/numbers_screen/numbers_screen.dart';
 import 'package:swing_track/settings_screen/settings_screen.dart';
 import 'package:swing_track/misc/widgets.dart';
 
@@ -24,8 +25,12 @@ Widget _numbersTextButton(String text, VoidCallback onPressed) {
   );
 }
 
+class NumbersTopButtons extends StatefulWidget {
+  @override
+  _NumbersTopButtonsState createState() => _NumbersTopButtonsState();
+}
 
-class _TopButtonRow extends StatelessWidget {
+class _NumbersTopButtonsState extends State<NumbersTopButtons> {
   @override
   Widget build(BuildContext context) {
     VoidCallback goHome = () {
@@ -38,51 +43,55 @@ class _TopButtonRow extends StatelessWidget {
     };
 
     Widget _topButtonRow = Material(
-      color: Theme.of(context).brightness == Brightness.light ?
+        color: Theme.of(context).brightness == Brightness.light ?
         Color.fromARGB(255, 180, 180, 180) :
         Color.fromARGB(255, 20, 20, 20),
-      child: Padding(
-        child: Row(
-            children: [
-              Spacer(),
-              _numbersTextButton("End Session", goHome),
-              Spacer(flex: 9),
-              SizedBox(
-                height: 35,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    FloatingActionButton(
-                      heroTag: null,
-                      onPressed: () {},
-                      child: Icon(Icons.add, color: Colors.white),
-                      backgroundColor: Colors.green
-                    ),
-                    Text('PW', style: new TextStyle(fontSize: 25.0)),
-                    FloatingActionButton(
-                      heroTag: null,
-                      onPressed: () {},
-                      child: Icon(Icons.remove, color: Colors.white),
-                      backgroundColor: Colors.green
-                    ),
-                  ],
+        child: Padding(
+          child: Row(
+              children: [
+                Spacer(),
+                _numbersTextButton("End Session", goHome),
+                Spacer(flex: 9),
+                SizedBox(
+                  height: 35,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      FloatingActionButton(
+                          heroTag: null,
+                          onPressed: () {setState(() {
+                            NumbersScreen.clubNumber.decrement();
+                          });},
+                          child: Icon(Icons.remove, color: Colors.white),
+                          backgroundColor: Colors.green
+                      ),
+                      Text(NumbersScreen.clubNumber.toString(), style: new TextStyle(fontSize: 25.0)),
+                      FloatingActionButton(
+                          heroTag: null,
+                          onPressed: () {setState(() {
+                            NumbersScreen.clubNumber.increment();
+                          });},
+                          child: Icon(Icons.add, color: Colors.white),
+                          backgroundColor: Colors.green
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              Spacer(flex: 9),
-              SizedBox(
-                height: 35,
-                child: FloatingActionButton(
-                    heroTag: null,
-                    onPressed: goSettings,
-                    child: Icon(Icons.settings, color: Colors.white),
-                    backgroundColor: Colors.green
+                Spacer(flex: 9),
+                SizedBox(
+                  height: 35,
+                  child: FloatingActionButton(
+                      heroTag: null,
+                      onPressed: goSettings,
+                      child: Icon(Icons.settings, color: Colors.white),
+                      backgroundColor: Colors.green
+                  ),
                 ),
-              ),
-              Spacer()
-            ]
-        ),
-        padding: EdgeInsets.all(8),
-      )
+                Spacer()
+              ]
+          ),
+          padding: EdgeInsets.all(8),
+        )
     );
 
     Widget _alignedBottomRow = Align(
@@ -90,19 +99,16 @@ class _TopButtonRow extends StatelessWidget {
         child: _topButtonRow
     );
 
-    return _alignedBottomRow;
-  }
-}
-
-class NumbersTopButtons extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
     return Stack(
       alignment: AlignmentDirectional.center,
       fit: StackFit.passthrough,
       children: [
-        _TopButtonRow()
+        _alignedBottomRow
       ],
     );
+  }
+
+  void updateClubNumber(int updateFunc(int data)) {
+
   }
 }
