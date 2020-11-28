@@ -93,7 +93,7 @@ class NumbersScreenState extends State<NumbersScreen> {
             onPressed: () async {setState(() {
               recording = !recording;
             });
-            int value = await NumbersScreen.platform.invokeMethod("record");
+            int value = await NumbersScreen.platform.invokeMethod("record", <String, dynamic>{"test12": NumbersScreen.clubNumber.n});
             setState(() {
               NumbersDataDisplay.data.clubSpeed = value.toDouble();
               updateShotData((data) => data);

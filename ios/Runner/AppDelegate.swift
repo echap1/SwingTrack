@@ -18,14 +18,19 @@ import Flutter
         result(FlutterMethodNotImplemented)
         return
       }
-      self?.record(result: result)
+        self?.record(call: call, result: result)
     })
     
     GeneratedPluginRegistrant.register(with: self)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 
-  private func record(result: FlutterResult) {
-    result(123434)
+  private func record(call: FlutterMethodCall, result: FlutterResult) {
+    if let args = call.arguments as? [String: Any] {
+        result(args["test12"])
+    }
+    else {
+        result(FlutterMethodNotImplemented)
+    }
   }
 }
